@@ -15,19 +15,12 @@ We learn about the `true` and `false` propositions.
 ## Tactics you will need
 
 To solve the levels on this sheet you will need to know all previous
-tactics, plus the following two new ones:
+tactics, plus the following two new ones. Check out their explanations
+in the course book. Or just try them out and hover over them to see
+if you can understand what's going on.
 
 * `trivial`
 * `exfalso`
-
-### The `trivial` tactic
-
-If your goal is `⊢ true` then `trivial,` will solve it. 
-
-### The `exfalso` tactic
-
-The tactic `exfalso,` turns any goal `⊢ P` into `⊢ false`. 
-This is mathematically valid because `false` implies any goal.
 
 -/
 

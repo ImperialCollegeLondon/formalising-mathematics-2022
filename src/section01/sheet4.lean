@@ -20,16 +20,6 @@ and also the following tactics:
 * `cases`
 * `split`
 
-### The `cases` tactic
-
-If `h : P ∧ Q` is a hypothesis, then `cases h with hP hQ,`
-decomposes it into two hypotheses `hP : P` and `hQ : Q`.
-
-### The `split` tactic
-
-If `⊢ P ∧ Q` is in the goal, The `split` tactic will turn it into
-two goals, `⊢ P` and `⊢ Q`. NB tactics operate on the first goal only.
-
 -/
 
 -- Throughout this sheet, `P`, `Q` and `R` will denote propositions.

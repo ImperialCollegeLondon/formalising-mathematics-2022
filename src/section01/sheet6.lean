@@ -20,17 +20,6 @@ and also the following tactics
 * `left` and `right`
 * `cases` (new functionality)
 
-### The `left` and `right` tactics.
-
-If your goal is `⊢ P ∨ Q` then `left,` will change it to `⊢ P`
-and `right,` will change it to `⊢ Q`.
-
-### The `cases` tactic again
-
-If we have `h : P ∨ Q` as a hypothesis then `cases h with hP hQ`
-will turn your goal into two goals, one with `hP : P` as a hypothesis
-and the other with `hQ : Q`.
-
 -/
 
 -- Throughout this sheet, `P`, `Q`, `R` and `S` will denote propositions.

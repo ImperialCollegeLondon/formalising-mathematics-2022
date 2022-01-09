@@ -32,7 +32,7 @@ following tactics:
 * `apply`
 
 You can read the descriptions of these tactics in Part C of the course
-notes. 
+notes.
 
 ## Worked examples
 

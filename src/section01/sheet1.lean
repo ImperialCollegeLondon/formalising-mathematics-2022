@@ -1,5 +1,5 @@
 /-
-Copyright (c) 2021 Kevin Buzzard. All rights reserved.
+Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
@@ -31,39 +31,8 @@ following tactics:
 * `exact`
 * `apply`
 
-### The `intro` tactic
-
-Mathematical background: `intro h,` says "To prove `P → Q`, you can assume
-that `P` is true (call this assumption `h`) and then it
-suffices to prove `Q`."
-
-Lean: If your goal is `⊢ P → Q` then `intro h,` will introduce a
-hypothesis `h : P` (i.e. a hypothesis that `P` is true)
-and change the goal to `⊢ Q`. 
-
-### The `exact` tactic
-
-Mathematics: If you have an assumption `h` that `P` is true,
-and your goal is to prove that `P` is true, then `exact h,`
-will solve this goal.
-
-Lean: If your goal is `⊢ P` and you have a hypothesis `h : P`
-then `exact h,` will solve it.
-
-### The `apply` tactic
-
-Mathematics: `apply` is *arguing backwards*. It is like "it suffices to...".
-If you're trying to prove `Q`, and you know `h : P → Q` is true, then it
-suffices to prove `P`. So `apply h,` *changes the goal* from `Q` to `P`. The key
-point to remember is that `apply h` will only work when `h` is an implication,
-and it will only work when the *conclusion* of `h` *matches the goal*.
-
-Lean: If your goal is `⊢ Q` and you have `h : P → Q` then `apply h,` will
-change the goal to `⊢ P`.
-
--/
-
-/-
+You can read the descriptions of these tactics in Part C of the course
+notes. 
 
 ## Worked examples
 
@@ -73,8 +42,6 @@ I will use the following conventions: variables with capital
 letters like `P`, `Q`, `R` denote propositions
 (i.e. true/false statements) and variables whose names begin
 with `h` like `h1` or `hP` are proofs or hypotheses.
-
-
 
 -/ 
 
@@ -94,7 +61,8 @@ end
 example (hQ : Q) : P → Q :=
 begin
   -- The goal is of the form `X → Y` so we can use `intro`
-  intro h, -- now `h` is the hypothesis that `P` is true.
+  intro h,
+  -- now `h` is the hypothesis that `P` is true.
   -- Our goal is now the same as a hypothesis so we can use `exact`
   exact hQ,
 end
@@ -164,8 +132,14 @@ begin
   sorry
 end
 
--- Now they get a little harder. You can skip these if
--- you feel like you know what you're doing.
+/- 
+
+Here are some harder puzzles. If you're not into logic puzzles
+and you feel like you understand `intro`, `exact` and `apply`
+then you can just skip these and move onto the next sheet
+in this section, where you'll learn some more tactics.
+
+-/
 
 variables (S T : Prop)
 

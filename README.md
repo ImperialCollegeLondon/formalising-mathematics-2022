@@ -10,4 +10,4 @@ If you have Lean 3 and the community tools installed, then it's just a matter of
 leanproject get ImperialCollegeLondon/formalising-mathematics-2022
 ```
 
-Instructions for installing Lean 3 and the relevant tools are [here](https://leanprover-community.github.io/get_started.html).
+into the command line. Instructions for installing Lean 3 and the relevant tools are [here](https://leanprover-community.github.io/get_started.html).

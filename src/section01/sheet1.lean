@@ -65,6 +65,7 @@ begin
   -- now `h` is the hypothesis that `P` is true.
   -- Our goal is now the same as a hypothesis so we can use `exact`
   exact hQ,
+  -- note `exact Q` doesn't work: `exact` takes the *term*, not the type.
 end
 
 -- Assume `P → Q` and `P` is true. Deduce `Q`.

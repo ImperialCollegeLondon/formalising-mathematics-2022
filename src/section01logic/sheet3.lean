@@ -33,11 +33,6 @@ and also the following tactics:
 
 variables (P Q R : Prop)
 
-example : ¬ P → (P → false) :=
-begin
-  sorry,
-end
-
 example : ¬ true → false :=
 begin
   sorry

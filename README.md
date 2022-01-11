@@ -11,3 +11,7 @@ leanproject get ImperialCollegeLondon/formalising-mathematics-2022
 ```
 
 into the command line. Instructions for installing Lean 3 and the relevant tools are [here](https://leanprover-community.github.io/get_started.html).
+
+## Course notes
+
+The course notes are [here](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2022/). They are also currently unfinished, and will grow in parallel with this repo over the period Jan to March 2022.

@@ -18,4 +18,4 @@ The course notes are [here](https://www.ma.imperial.ac.uk/~buzzard/xena/formalis
 
 ## Course videos
 
-The accompanying videos are in a YouTube playlist [here](https://www.youtube.com/watch?v=3XaL0tjnWSk&list=PLVZep5wTamMmRPvCLO4WVpCwkTi1F6OyF)
+The accompanying videos are in a YouTube playlist [here](https://www.youtube.com/watch?v=3XaL0tjnWSk&list=PLVZep5wTamMmRPvCLO4WVpCwkTi1F6OyF). As with everything else, this playlist will be built during the period Jan to March 2022.

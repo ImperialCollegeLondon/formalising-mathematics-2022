@@ -1,5 +1,5 @@
 /-
-Copyright (c) 2021 Kevin Buzzard. All rights reserved.
+Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
@@ -21,7 +21,7 @@ equality in the "equality" section of Part B of the course notes.
 ## Tactics
 
 You'll need to know about the tactics from the previous sheets,
-and also the following tactics:
+and the following tactics may also be useful:
 
 * `change`
 * `by_contra`

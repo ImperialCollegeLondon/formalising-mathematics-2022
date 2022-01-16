@@ -18,7 +18,7 @@ it to prove these theorems.
 ## New tactics you will need
 
 * `ring`
-* `intro`
+* `intro` (new functionality)
 
 -/
 

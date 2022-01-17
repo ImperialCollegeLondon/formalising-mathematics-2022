@@ -18,11 +18,12 @@ out how to type it in VS Code.
 In this sheet you will prove some basic equalities and inequalities
 between "numerical expressions" in Lean. A numeral is something like `37`,
 and a numerical expression is something like `(37 + 6) / 4`. To make
-things a bit harder, I will throw in some `∃` statements. 
+things a bit harder, I will throw in some `∃` statements. To make
+progress on an `∃` goal, use the `use` tactic.
 
 ## Tactics
 
-You'll need to know about the following tactics:
+New tactics you'll need to know about:
 
 * `norm_num` (proves equalities and inequalities about numerical expressions)
 * `use` (if the goal is `∃ x, x + 37 = 42` then `use 8` will change the goal

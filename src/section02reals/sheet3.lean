@@ -71,7 +71,7 @@ end
 
 Here are some basic results about limits of sequences.
 See if you can fill in the `sorry`s with Lean proofs.
-Note that `norm_num` can work with `|x|` if `x` is a numeral,
+Note that `norm_num` can work with `|x|` if `x` is a numeral like 37,
 but it can't do anything with it if it's a variable.
 -/
 

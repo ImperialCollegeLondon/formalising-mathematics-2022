@@ -25,7 +25,7 @@ progress on an `∃` goal, use the `use` tactic.
 
 New tactics you'll need to know about:
 
-* `norm_num` (proves equalities and inequalities about numerical expressions)
+* `norm_num` (proves equalities and inequalities involving numerical expressions)
 * `use` (if the goal is `∃ x, x + 37 = 42` then `use 8` will change the goal
 *        to `8 + 37 = 42`, and `use 10` will change it to `10 + 37 = 42`.
 

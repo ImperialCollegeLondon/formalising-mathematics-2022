@@ -14,10 +14,6 @@ import data.real.basic -- imports the real numbers
 We give the standard `ε`, `N` definition of the limit of a sequence
 and prove some theorems about them.
 
--/
-
-/-
-
 ## lambda (λ) notation for functions
 
 Here's how we define the functions from the naturals to the naturals
@@ -31,7 +27,9 @@ def f : ℕ → ℝ := λ n, n^2+3
 
 Mathematicians might write `n ↦ n^2+3` for this functions; indeed `λ` is
 just prefix notation for the infix notation `↦` (i.e. you write `λ` at
-the front and `↦` in the middle but they mean the same thing).
+the front and `↦` in the middle but they mean the same thing). You can
+read more about function types in the "three kinds of types" section
+of Part B of the course book.
 
 The reason we need to know about function notation for this sheet
 is that a sequence `x₀, x₁, x₂, …` of reals on this sheet will
@@ -54,8 +52,8 @@ We've made a definition, so it's our job to now make the API
 for the definition, i.e. prove some basic theorems about it. 
 -/
 
-/-- If your goal is `tendsto a t` and you want to replace it with
-`∀ ε > 0, ∃ B, …` then you can do this with `rw tendsto_def`. -/
+-- If your goal is `tendsto a t` and you want to replace it with
+-- `∀ ε > 0, ∃ B, …` then you can do this with `rw tendsto_def`.
 theorem tendsto_def {a : ℕ → ℝ} {t : ℝ} :
   tendsto a t ↔ ∀ ε, 0 < ε → ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε :=
 begin
@@ -73,7 +71,8 @@ end
 
 Here are some basic results about limits of sequences.
 See if you can fill in the `sorry`s with Lean proofs.
-
+Note that `norm_num` can work with `|x|` if `x` is a numeral,
+but it can't do anything with it if it's a variable.
 -/
 
 /-- The limit of the constant sequence with value 37 is 37. -/
@@ -94,17 +93,24 @@ theorem tendsto_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ)
   tendsto (λ n, a n + c) (t + c) :=
 begin
   sorry,
-  -- hints: use `cases` to deconstruct an `exists`
+  -- hints: make sure you know the maths proof!
+  -- use `cases` to deconstruct an `exists`
   -- hypothesis, and `specialize` to specialize
   -- a `forall` hypothesis to specific values.
+  -- Look up the explanations of these tactics in Part C
+  -- of the course notes. 
 end
+
 
 /-- If `a(n)` tends to `t` then `-a(n)` tends to `-t`.  -/
 theorem tendsto_neg {a : ℕ → ℝ} {t : ℝ} (ha : tendsto a t) :
   tendsto (λ n, - a n) (-t) :=
 begin
   sorry,
-  -- this one you can't do yet because you don't
-  -- know any API for the absolute value function |.|
-  -- More explanation to come on Monday
+  -- Try this one. Where do you get stuck?
+  -- The problem is that you probably don't
+  -- know any API for the absolute value function |.|.
+  -- We need to figure out how to prove |(-x)| = |x|,
+  -- or |a - b| = |b - a| or something like that.
+  -- Find out how in sheet 4.
 end

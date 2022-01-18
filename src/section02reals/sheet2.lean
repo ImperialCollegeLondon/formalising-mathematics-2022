@@ -12,13 +12,14 @@ import data.real.basic -- imports the real numbers
 # Doing algebra in the real numbers
 
 The `ring` tactic will prove algebraic identities like
-(x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2. See if you can use
-it to prove these theorems.
+(x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 in rings, and Lean
+knows that the real numbers are a ring. See if you can use
+`ring` to prove these theorems.
 
 ## New tactics you will need
 
 * `ring`
-* `intro` (new functionality)
+* `intro` (new functionality: use on a goal of type `⊢ ∀ x, ...`)
 
 -/
 
@@ -47,4 +48,3 @@ example : ∀ (x : ℝ), ∃ y, x + y ≠ 2 :=
 begin
   sorry,
 end
-

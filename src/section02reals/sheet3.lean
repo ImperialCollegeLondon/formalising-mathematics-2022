@@ -31,6 +31,12 @@ the front and `↦` in the middle but they mean the same thing). You can
 read more about function types in the "three kinds of types" section
 of Part B of the course book.
 
+Sometimes you might find yourself with a lambda-defined function
+evaluated at a number. For example, you might see something like
+`(λ n, n^2 + 3) 37`, which means "take the function sending
+`n` to `n^2+3` and then evaluate it at 37". You can use the `dsimp`
+(or `dsimp only`) tactic to simplify this to `37^2+3`.
+
 The reason we need to know about function notation for this sheet
 is that a sequence `x₀, x₁, x₂, …` of reals on this sheet will
 be encoded as a function from `ℕ` to `ℝ` sending `0` to `x₀`, `1` to `x₁`

@@ -82,7 +82,7 @@ but it can't do anything with it if it's a variable.
 -/
 
 /-- The limit of the constant sequence with value 37 is 37. -/
-theorem tendsto_thirtyseven (c : ℝ) : tendsto (λ n, 37) 37 :=
+theorem tendsto_thirtyseven : tendsto (λ n, 37) 37 :=
 begin
   sorry,
 end

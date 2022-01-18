@@ -103,7 +103,7 @@ end
 
 
 /-- If `a(n)` tends to `t` then `-a(n)` tends to `-t`.  -/
-theorem tendsto_neg {a : ℕ → ℝ} {t : ℝ} (ha : tendsto a t) :
+example {a : ℕ → ℝ} {t : ℝ} (ha : tendsto a t) :
   tendsto (λ n, - a n) (-t) :=
 begin
   sorry,

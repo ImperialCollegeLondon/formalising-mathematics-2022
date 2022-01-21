@@ -64,7 +64,7 @@ theorem tendsto_def {a : ℕ → ℝ} {t : ℝ} :
   tendsto a t ↔ ∀ ε, 0 < ε → ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε :=
 begin
   -- true by definition
-  refl
+  refl,
 end
 
 -- the eagle-eyed viewers amongst you might have spotted
@@ -84,13 +84,24 @@ but it can't do anything with it if it's a variable.
 /-- The limit of the constant sequence with value 37 is 37. -/
 theorem tendsto_thirtyseven : tendsto (λ n, 37) 37 :=
 begin
-  sorry,
+  rw tendsto_def,
+  intros ε hε,
+  use 100,
+  intros n hn,
+  norm_num,
+  exact hε,
 end
 
 /-- The limit of the constant sequence with value `c` is `c`. -/
 theorem tendsto_const (c : ℝ) : tendsto (λ n, c) c :=
 begin
-  sorry,
+  intros ε hε,
+  dsimp only,
+  use 37,
+  intros n hn,
+  ring_nf,
+  norm_num,
+  exact hε,
 end
 
 /-- If `a(n)` tends to `t` then `a(n) + c` tends to `t + c` -/
@@ -98,13 +109,9 @@ theorem tendsto_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ)
   (h : tendsto a t) :
   tendsto (λ n, a n + c) (t + c) :=
 begin
-  sorry,
-  -- hints: make sure you know the maths proof!
-  -- use `cases` to deconstruct an `exists`
-  -- hypothesis, and `specialize` to specialize
-  -- a `forall` hypothesis to specific values.
-  -- Look up the explanations of these tactics in Part C
-  -- of the course notes. 
+  rw tendsto_def at h ⊢,
+  ring_nf,
+  exact h,
 end
 
 
@@ -112,11 +119,18 @@ end
 example {a : ℕ → ℝ} {t : ℝ} (ha : tendsto a t) :
   tendsto (λ n, - a n) (-t) :=
 begin
-  sorry,
-  -- Try this one. Where do you get stuck?
-  -- The problem is that you probably don't
-  -- know any API for the absolute value function |.|.
-  -- We need to figure out how to prove |(-x)| = |x|,
-  -- or |a - b| = |b - a| or something like that.
-  -- Find out how in sheet 4.
+  rw tendsto_def at ha ⊢,
+  ring_nf,
+  intros ε hε,
+  specialize ha ε hε,
+  cases ha with B hB,
+  use B,
+  intros n hn,
+  specialize hB n hn,
+  ring_nf at hB ⊢,
+  have h : ∀ (x : ℝ), |(-x)| = |x|,
+    sorry, -- how to prove basic results about |.|? See next sheet!
+  rw ← h,
+  ring_nf at hB ⊢,
+  exact hB,
 end

@@ -26,50 +26,96 @@ variables (P Q R S : Prop)
 
 example : P ↔ P :=
 begin
-  sorry
+  refl,
 end
 
 example : (P ↔ Q) → (Q ↔ P) :=
 begin
-  sorry
+  intro h,
+  rw h,
 end
 
 example : (P ↔ Q) ↔ (Q ↔ P) :=
 begin
-  sorry
+  split;
+  { intro h,
+    rw h}
 end
 
 example : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=
 begin
-  sorry
+  intros h1 h2,
+  rwa h1, -- rwa is rw + assumption
 end
 
 example : P ∧ Q ↔ Q ∧ P :=
 begin
-  sorry
+  split;
+  { rintro ⟨h1, h2⟩,
+    exact ⟨h2, h1⟩ }
 end
 
 example : ((P ∧ Q) ∧ R) ↔ (P ∧ (Q ∧ R)) :=
 begin
-  sorry
+  split,
+  { intro h,
+    cases h with hPaQ hR,
+    cases hPaQ with hP hQ,
+    split,
+    { exact hP },
+    { split,
+      { exact hQ },
+      { exact hR } } },
+  { rintro ⟨hP, hQ, hR⟩,
+    exact ⟨⟨hP, hQ⟩, hR⟩ }
 end
 
 example : P ↔ (P ∧ true) :=
 begin
-  sorry
+  split,
+  { intro hP,
+    split,
+    { exact hP },
+    { triv } },
+  { rintro ⟨hP, -⟩,
+    exact hP }
 end
 
 example : false ↔ (P ∧ false) :=
 begin
-  sorry
+  split,
+  { rintro ⟨⟩ },
+  { rintro ⟨-,⟨⟩⟩ }
 end
 
 example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) :=
 begin
-  sorry
+  intros h1 h2,
+  rw h1,
+  rw h2,
 end
 
 example : ¬ (P ↔ ¬ P) :=
 begin
-  sorry,
+  intro h,
+  cases h with h1 h2,
+  by_cases hP : P,
+  { apply h1; assumption },
+  { apply hP,
+    apply h2,
+    exact hP }
+end
+
+-- constructive proof
+example : ¬ (P ↔ ¬ P) :=
+begin
+  intro h,
+  have hnP : ¬ P,
+  { cases h with h1 h2,
+    intro hP,
+    apply h1;
+    assumption },
+  apply hnP,
+  rw h,
+  exact hnP,
 end

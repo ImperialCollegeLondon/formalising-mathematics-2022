@@ -6,8 +6,7 @@ Author : Kevin Buzzard
 
 import tactic -- imports all the Lean tactics
 import data.real.basic -- imports the real numbers
-import section02reals.sheet3 -- import the definition of `tendsto` from a previous sheet
--- **TODO** change this import to the solutions import when solns are done
+import solutions.section02reals.sheet3 -- import the definition of `tendsto` from a previous sheet
 
 -- you can maybe do this one now
 theorem tendsto_neg {a : ℕ → ℝ} {t : ℝ} (ha : tendsto a t) :

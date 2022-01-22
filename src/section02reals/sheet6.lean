@@ -6,8 +6,7 @@ Author : Kevin Buzzard
 
 import tactic -- imports all the Lean tactics
 import data.real.basic -- imports the real numbers
-import section02reals.sheet5 -- import the definition of `tendsto` from a previous sheet
--- **TODO** change this import to the solutions import when solns are done
+import solutions.section02reals.sheet5 -- import a bunch of previous stuff
 
 /-
 

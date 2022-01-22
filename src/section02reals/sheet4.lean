@@ -33,6 +33,13 @@ Some of the results below are bare inequalities which are too complex
 to be in the library. The library contains "natural" or "standard"
 results, but it doesn't contain a random inequality fact just because
 it happens to be true -- the library just contains "beautiful" facts.
+
+The `linarith` tactic is a tactic which can solve some equalities and inequalities
+in ordered structures like the naturals or reals. Unlike `ring`, `linarith`
+does look at hypotheses in the tactic state. For example if you have
+hypotheses `h1 : a < b` and `h2 : b ≤ c` then `linarith` would prove
+a goal of `⊢ a < c`.
+
 However `linarith` doesn't know about anything other than `=`, `≠`,
 `<` and `≤`, so don't expect it to prove any results about `|x|` or
 `max A B`.

@@ -33,13 +33,6 @@ Some of the results below are bare inequalities which are too complex
 to be in the library. The library contains "natural" or "standard"
 results, but it doesn't contain a random inequality fact just because
 it happens to be true -- the library just contains "beautiful" facts.
-
-The `linarith` tactic is a tactic which can solve some equalities and inequalities
-in ordered structures like the naturals or reals. Unlike `ring`, `linarith`
-does look at hypotheses in the tactic state. For example if you have
-hypotheses `h1 : a < b` and `h2 : b ≤ c` then `linarith` would prove
-a goal of `⊢ a < c`.
-
 However `linarith` doesn't know about anything other than `=`, `≠`,
 `<` and `≤`, so don't expect it to prove any results about `|x|` or
 `max A B`.
@@ -52,41 +45,46 @@ see if you can start beginning to guess what various lemmas should be called.
 
 example (x : ℝ) : |(-x)| = |x| :=
 begin
-  sorry
+  library_search, -- or norm_num
 end
 
 example (x y : ℝ) : |x - y| = |y - x| :=
 begin
-  sorry
+  library_search, -- click where it says "try this" to replace
+                  -- library_search with an "exact" proof
+                  -- Why do this? Because it's much quicker!
 end 
 
 example (A B C : ℕ) : max A B ≤ C ↔ A ≤ C ∧ B ≤ C :=
 begin
-  sorry
+  library_search, -- Hmm. What would a theorem saying "the max is 
+                  -- less-or-equal to something iff something else
+                  -- be called, according to Lean's naming conventions?"
 end
 
 example (x y : ℝ) : |x| < y ↔ -y < x ∧ x < y :=
 begin
-  sorry
+  library_search, -- abs of something less than something...
 end
 
 example (ε : ℝ) (hε : 0 < ε) : 0 < ε / 2 :=
 begin
-  sorry,
+  linarith,
 end
 
 example (a b x y : ℝ) (h1 : a < x) (h2 : b < y) : a + b < x + y :=
 begin
-  sorry,
+  library_search, -- or linarith, or guess the name...
 end
 
 example (ε : ℝ) (hε : 0 < ε) : 0 < ε / 3 :=
 begin
-  sorry,
+  linarith, -- apparently deemed too obscure for the library
 end
 
 example (a b c d x y : ℝ) (h1 : a + c < x) (h2 : b + d < y) :
   a + b + c + d < x + y :=
 begin
-  sorry
+  linarith, -- note that add_lt_add doesn't work because
+            -- ((a+b)+c)+d and (a+c)+(b+d) are not definitionally equal
 end

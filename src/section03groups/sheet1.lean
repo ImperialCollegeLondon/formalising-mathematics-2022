@@ -26,6 +26,7 @@ group structures on `G`.
 
 -/
 
+/-- `mygroup G` is the type of group structures on the type `G`. -/
 class mygroup (G : Type)
   extends has_one G, has_mul G, has_inv G : Type :=
 (mul_assoc : ∀ a b c : G, (a * b) * c = a * (b * c))

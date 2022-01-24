@@ -113,4 +113,11 @@ confluent rewrite system for group theory!
 example (G : Type) [mygroup G] (a b : G) : 
   (b⁻¹ * a⁻¹)⁻¹ * 1⁻¹⁻¹ * b⁻¹ * (a⁻¹ * a⁻¹⁻¹⁻¹) * a = 1 := by simp
 
+-- bonus puzzle : if g^2=1 for all g in G, then G is abelian
+example (G : Type) [mygroup G] (h : ∀ g : G, g * g = 1) :
+  ∀ g h : G, g * h = h * g :=
+begin
+  sorry
+end
+
 end mygroup

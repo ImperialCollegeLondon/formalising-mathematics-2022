@@ -63,6 +63,8 @@ namespace mysubgroup
 -- let G be a group and let G be a subgroup
 variables {G : Type} [group G] (H : mysubgroup G)
 
+#check G -- G is a type. Type of G is `Type` which is a universe
+#check H -- H is a term! Type of H is `subgroup G` which is a type
 variables (a b c : G)
 
 -- This line makes `g ∈ H` make sense; it says "`g ∈ H` is defined
@@ -158,6 +160,46 @@ begin
     simp },
   { intro hy,
     exact H.mul_mem hy hx }
+end
+
+def is_abelian (G : Type) [group G] : Prop :=
+∀ a b : G, a * b = b * a
+
+def conjugate (H : mysubgroup G) (g : G) : mysubgroup G :=
+{ carrier := { a : G | ∃ h ∈ H, a = g * h * g⁻¹ },
+  one_mem' := ⟨1, by simp [H.one_mem]⟩,
+  mul_mem' := begin
+    rintro - - ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩,
+    refine ⟨a * b, H.mul_mem ha hb, by group⟩, -- life much easier with the `group` tactic!
+  end,
+  inv_mem' := begin
+    rintro - ⟨a, ha, rfl⟩,
+    refine ⟨a⁻¹, H.inv_mem ha, by group⟩,
+  end }
+
+def is_normal {G : Type} [group G] (H : mysubgroup G) : Prop :=
+∀ g : G, conjugate H g = H
+
+@[ext] def ext' (H K : mysubgroup G) (h : ∀ g : G, g ∈ H ↔ g ∈ K) : H = K :=
+begin
+  ext x,
+  exact h x,
+end
+
+example (h_ab : is_abelian G) (H : mysubgroup G) : is_normal H :=
+begin
+  intro g,
+  ext x,
+  split,
+  { rintro ⟨a, ha, rfl⟩,
+    rw h_ab g a,
+    simpa using ha },
+  { intro h,
+    use g⁻¹ * x * g,
+    split,
+    { rw h_ab, 
+      simpa using h },
+    { group } }
 end
 
 end mysubgroup

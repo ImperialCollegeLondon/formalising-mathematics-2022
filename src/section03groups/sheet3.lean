@@ -82,6 +82,14 @@ begin
   refl
 end
 
+-- Now we have some nicer notation we can write a nicer extensionality lemma 
+/-- Two subgroups of a group are equal iff they have the same elements. -/
+@[ext] def ext' (H K : mysubgroup G) (h : ∀ g : G, g ∈ H ↔ g ∈ K) : H = K :=
+begin
+  ext x,
+  exact h x,
+end
+
 -- We now start reformulating the axioms without ever mentioning "carrier".
 theorem one_mem : (1 : G) ∈ H :=
 begin
@@ -141,6 +149,30 @@ theorem mul_mem_cancel_right {x y : G} (hx : x ∈ H) :
   y * x ∈ H ↔ y ∈ H :=
 begin
   sorry
+end
+
+/-- The predicate saying that G is abelian. -/
+def is_abelian (G : Type) [group G] : Prop :=
+∀ a b : G, a * b = b * a
+
+-- The ``group`` tactic solves identities in groups, like the
+-- ``ring`` tactic does in rings.
+
+/-- `conjugate H g` is the subgroup conjugate `gHg⁻¹` of `H`. -/
+def conjugate (H : mysubgroup G) (g : G) : mysubgroup G :=
+{ carrier := { a : G | ∃ h ∈ H, a = g * h * g⁻¹ },
+  one_mem' := begin sorry end,
+  mul_mem' := begin sorry end,
+  inv_mem' := begin sorry end,
+}
+
+/-- A subgroup is normal iff it's equal to all its conjugates. -/
+def is_normal {G : Type} [group G] (H : mysubgroup G) : Prop :=
+∀ g : G, conjugate H g = H
+
+example (h_ab : is_abelian G) (H : mysubgroup G) : is_normal H :=
+begin
+  sorry,
 end
 
 end mysubgroup

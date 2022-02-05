@@ -44,6 +44,16 @@ begin
   sorry
 end
 
+example : A ∩ ∅ = ∅ :=
+begin
+  sorry
+end
+
+example : A ∪ univ = univ :=
+begin
+  sorry
+end
+
 example : A ⊆ B → B ⊆ A → A = B :=
 begin
   sorry

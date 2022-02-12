@@ -5,7 +5,7 @@ Author : Kevin Buzzard
 -/
 
 import tactic -- imports all the Lean tactics
-import section06quotients.sheet1definitions
+import solutions.section06quotients.sheet1definitions
 
 /-!
 
@@ -119,7 +119,12 @@ namespace Zmod
 
 lemma negation_is_well_defined_key_lemma (a b : ℤ) (h : a ≈ b) : ⟦-a⟧ = ⟦-b⟧ :=
 begin
-  sorry,
+  apply quotient.sound,
+  cases h with x hx,
+  rw equiv_def,
+  rw R_def,
+  use -x,
+  simp [← hx],
 end
 
 -- The lemma above is somehow the key ingredient to make those
@@ -165,7 +170,9 @@ the diagram commute (i.e. such that `⟦F(x₁)⟧ = f(⟦x₁⟧)`).
 def neg2 : Zmod37 → Zmod37 := quotient.map (λ a, -a) begin
   -- goal looks terrifying! I don't really understand it myself!
   -- But bravely start with `intro a`, and use `dsimp` to get rid of the `lambda`s
-  sorry
+  rintros a b ⟨x, hx⟩,
+  use -x,
+  simp [← hx],
 end
 
 -- The diagram commutes by definition

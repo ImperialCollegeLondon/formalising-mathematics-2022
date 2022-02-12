@@ -103,9 +103,16 @@ begin
   -- Still a question about Zmod37, but now all our variables
   -- are integers,
   intro a,
-  -- We just trained the simplifier to do questions like these.
+  -- There are now two approaches. You can either `apply quotient.sound`
+  -- to turn it into a question about integers, where we can use
+  -- all the usual tactics like `ring`, or you can see how far
+  -- the simplifier gets, because we've been training it to
+  -- do questions like these.
   -- We told it `0 = ⟦0⟧` and `⟦a⟧ + ⟦b⟧ = ⟦a + b⟧`.
+  -- In this case, the simplifier can do it.
   simp,
+  -- If it can't do it, try applying `quotient.sound` and
+  -- then perhaps `dsimp` to get rid of the lambdas.
 end
 
 -- I'll give you the first line for this one.

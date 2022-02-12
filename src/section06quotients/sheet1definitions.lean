@@ -101,7 +101,7 @@ is a multiple of 37. -/
 def R (a b : ℤ) : Prop :=
 ∃ z : ℤ, a - b = 37 * z
 
-lemma R_defn (a b : ℤ) : R a b ↔ ∃ z : ℤ, a - b = 37 * z :=
+lemma R_def (a b : ℤ) : R a b ↔ ∃ z : ℤ, a - b = 37 * z :=
 begin
   refl,
 end
@@ -134,8 +134,10 @@ def s : setoid ℤ :=
 { r := R,
   iseqv := R_equivalence }
 
-/-- The integers mod 37, defined as a quotient. -/
-def Zmod37 := quotient s 
+-- Let's not make a definition, let's just make notation
+notation `Zmod37` := quotient s 
+
+-- Then `Zmod37` and `quotient s` are syntactically equal 
 
 /-
 

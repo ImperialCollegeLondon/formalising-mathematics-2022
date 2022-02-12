@@ -109,23 +109,36 @@ end
 
 lemma R_reflexive : reflexive R :=
 begin
-  unfold reflexive, -- if you like
-  sorry
+  intro x,
+  use 0,
+  ring,
 end
 
 lemma R_symmetric : symmetric R :=
 begin
-  sorry
+  intros x y h,
+  -- rw R_def at h ⊢,
+  cases h with a ha,
+  use -a,
+  rw (show 37 * -a = -(37 * a), by ring),
+  rw ← ha,
+  ring,
 end
 
 lemma R_transitive : transitive R :=
 begin
-  sorry
+  rintros x y z ⟨a, ha⟩ ⟨b, hb⟩,
+  exact ⟨a + b, by simp [mul_add, ← ha, ← hb]⟩,
 end
 
 lemma R_equivalence : equivalence R :=
 begin
-  sorry,
+  unfold equivalence,
+  split,
+  { exact R_reflexive },
+  split,
+  { exact R_symmetric },
+  { exact R_transitive }
 end
 
 -- The "setoid" -- everything we've defined and proved so far,

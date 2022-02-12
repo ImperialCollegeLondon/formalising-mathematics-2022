@@ -5,7 +5,7 @@ Author : Kevin Buzzard
 -/
 
 import tactic -- imports all the Lean tactics
-import solutions.section06quotients.sheet1definitions
+import section06quotients.sheet1definitions
 
 /-!
 

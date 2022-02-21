@@ -1,4 +1,5 @@
 import tactic
+import number_theory.divisors -- added to make Bhavik's proof work
 
 /-
 
@@ -46,3 +47,18 @@ begin
     rw h },
 end
 
+-- Thanks to Bhavik Mehta for showing me how to prove this in Lean
+lemma int_dvd_iff (x : ℤ) (n : ℤ) (hn : n ≠ 0) :
+  x ∣ n ↔ x.nat_abs ∈ n.nat_abs.divisors :=
+by simp [hn]
+
+example (x : ℤ) : x ∣ 24 ↔ x ∈ ({-1,-2,-3,-4,-6,-8,-12,-24,1,2,3,4,6,8,12,24} : set ℤ) :=
+begin
+  suffices : x ∣ 24 ↔ x.nat_abs ∈ ({1,2,3,4,6,8,12,24} : finset ℕ),
+  { simp only [this, int.nat_abs_eq_iff, set.mem_insert_iff, set.mem_singleton_iff,
+      finset.mem_insert, finset.mem_singleton],
+    norm_cast,
+    rw ←eq_iff_iff,
+    ac_refl },
+  exact int_dvd_iff _ 24 (by norm_num),
+end

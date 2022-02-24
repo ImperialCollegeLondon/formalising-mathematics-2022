@@ -73,6 +73,32 @@ end
 
 # The axiom of choice in Lean
 
-Unfortunately, *using* the above result is *really annoying*. For example,
-if one wants to talk about 
+Unfortunately, *using* the above result is *really annoying*. The theorem
+says that there *exists* a `g`, but this is a statement in the `Prop`
+universe. What we actually want is the inverse itself; this is data, so it
+lives in the `Type` universe. Here are the types of everything:
+
+-- this is on the `Prop` side of Lean
+`∃ g : Y → X, (∀ y, f(g y)=y) ∧ (∀ x, g(f x) = x) : Prop`
+
+-- these are on the `Type` side of Lean
+`g : Y → X`
+`Y → X : Type`
+
+In constructive mathematics, or computer science, or whatever you want to
+call it, it's impossible to move from the `Prop` universe to the `Type`
+universe; we know `g` exists, but we don't have a *formula* for it. 
+In mathematics we don't care about this, and we can use what the
+computer scientists call "classical axioms" to get `g` from the `∃ g` statement.
+For example, `classical.some` is a function which eats a proof of `∃ x : X, <something>`
+and returns a term of type `X` which satisfies the `<something>`. It's really inconvenient
+having to keep using `classical.some` though. What is done in Lean's maths library
+is something different. In Lean, a group isomorphism or a homeomorphism
+is defined not to be a bijective function `f : X → Y` with some properties,
+but a *pair* of functions `f : X → Y` and `g : Y → X` with some properties
+(including the properties of being each other's inverse). In the next
+sheet we'll see the `equiv` structure, which packages up the common
+data needed in all these definitions; `equiv` is "constructive bijections",
+or "bijections with a given inverse".
+
 -/

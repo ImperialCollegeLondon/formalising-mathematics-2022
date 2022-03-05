@@ -20,7 +20,5 @@ def ideal.s : setoid (ideal R) :=
    λ I J K hIJ hJK, nonempty.intro $ hIJ.some.trans hJK.some⟩ }
 
 def ideal.Picard_monoid := quotient (ideal.s R)
- 
-#exit
 
 

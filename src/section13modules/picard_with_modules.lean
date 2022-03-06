@@ -95,27 +95,21 @@ def bundled_module.s : setoid (bundled_module R) :=
   end }
 
 /-
+This type is a bit difficult to deal with because the
+typeclasses have been bundled into a structure instead
+of the usual method of having them outside. This means
+that the type class inference system (the square bracket system)
+has a hard time dealing with them. Scott Morrison's idea
+is that instead of relying on the typeclass system
+(the square bracket system) we should use the category theory
+system to manage all the boring stuff like "a module is
+an additive monoid" behind the scenes.
 
-But actually we shouldn't be doing this.
+In the `picard_with_categories` file we use Lean's implementation
+`Module R` of `bundled_module R`. More precisely we use
+bundled modules at universe level `u`, namely `Module.{u u} R`.
 
-
-The problem with `bundled_module` is that all this stuff like
-the addition on M and the R-module structure on M are usually
-managed by the type class inference system, but they're finding
-it hard to break into the 
-this is that now all those things like
-add_comm_group are hard for the type class system to get to.
-The fix is not to make the definition `bundled_module` at
-all, and use Lean's version of `bundled_module` which is
-called `Module` "the category theory version of modules"
+So I won't continue with this development.
 
 -/
-#exit
-def ideal.s : setoid (module R) :=
-{ r := λ I J, nonempty (I ≃ₗ[R] I),
-  iseqv := begin
-    sorry
-  end }
-
-def ideal.Picard_monoid := quotient (ideal.s R)
  

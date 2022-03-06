@@ -1,5 +1,6 @@
 --import algebra.category.Module.basic
 import ring_theory.ideal.basic
+import linear_algebra.tensor_product
 
 /-!
 
@@ -66,5 +67,52 @@ to `JL`?
 
 -- I can't fill this in because I can't answer the above question.
 --def mul (A B : ideal.Picard_monoid R) : ideal.Picard_monoid R :=
+
+-- However perhaps we can still define the Picard group.
+-- Let's stick to invertible ideals.
+
+-- notation
+open_locale tensor_product
+
+variable {R}
+
+def are_tensor_inverses (I J : ideal R) : Prop :=
+nonempty (I ⊗[R] J ≃ₗ[R] R)
+
+lemma are_tensor_inverses.symm {I J : ideal R} (e : are_tensor_inverses I J) :
+  are_tensor_inverses J I :=
+nonempty.map (λ i, linear_equiv.trans (tensor_product.comm R _ _) i) e
+
+def is_tensor_invertible (I : ideal R) : Prop := 
+∃ J : ideal R, nonempty (I ⊗[R] J ≃ₗ[R] R)
+
+namespace is_tensor_invertible
+
+variable (I : ideal R)
+
+lemma tensor_iso_prod (h : is_tensor_invertible I) (K : ideal R) :
+  nonempty (K ⊗[R] I ≃ (K * I : ideal R)) :=
+begin
+  -- Antoine said this might be some standard fact about
+  -- invertible ideals
+  sorry
+end 
+
+variable (R)
+
+abbreviation bundled_tensor_invertible_ideals := {I : ideal R // is_tensor_invertible I}
+
+instance s : setoid (bundled_tensor_invertible_ideals R) :=
+{ r := λ I J, nonempty (I.1 ≃ₗ[R] J.1),
+  iseqv := 
+  ⟨λ I, nonempty.intro $ linear_equiv.refl _ _,  
+   λ I J, nonempty.map linear_equiv.symm,
+   λ I J K, nonempty.map2 linear_equiv.trans⟩ }
+
+def mul (I J : bundled_tensor_invertible_ideals R) : bundled_tensor_invertible_ideals R :=
+⟨I.1 * J.1, sorry⟩ -- product of tensor-invertible ideals is invertible
+
+end is_tensor_invertible
+
 
 end ideal

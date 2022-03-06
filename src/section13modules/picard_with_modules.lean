@@ -1,4 +1,7 @@
-import algebra.category.Module.basic
+--import algebra.category.Module.basic
+import linear_algebra.tensor_product
+import ring_theory.noetherian
+
 /-!
 
 # Picard group of a commutative ring
@@ -56,6 +59,10 @@ by a scalar `r • m : M` (`module R M`)
 section module_basics
 
 variables (M : Type u) [add_comm_group M] [module R M]
+  (m₁ m₂ m : M) (r : R)
+
+--#check m₁ + m₂ -- M
+--#check r • m -- M
 
 end module_basics
 
@@ -111,5 +118,122 @@ bundled modules at universe level `u`, namely `Module.{u u} R`.
 
 So I won't continue with this development.
 
+Let's try and prove some key result about modules
+
 -/
- 
+
+open_locale tensor_product
+
+variables (M : Type u) [add_comm_group M] [module R M]
+  (N : Type u) [add_comm_group N] [module R N]
+
+def module.is_inverse : Prop :=
+nonempty (M ⊗[R] N ≃ₗ[R] R)
+
+/-
+What's the idea? `i : M ⊗ N ≃ₗ[R] R`
+Consider the following map from M to the generators
+First send `m : M` to `mn ⊗ᵗ m : (M ⊗ N) ⊗ M`. This is an isomorphism
+from `M` to `(M ⊗ N) ⊗ M`
+and note that the image of `m` is of the form `(∑ⱼ rⱼ•m_ⱼ⊗ᵗnⱼ) ⊗ᵗ m`.
+The corresponding element of `M ⊗ (N ⊗ M)` is `∑ⱼmⱼ⊗ᵗ(rⱼ•nⱼ⊗m)`
+And this is isomorphic to `M` via `i.swap` or whatever it's called
+So we have ended up with an isomorphism `M ≃ₗ M` with image in the
+span of the `mⱼ`.
+
+-/
+
+--#print prefix linear_equiv
+
+instance : has_coe (M ≃ₗ[R] N) (M →ₗ[R] N) := linear_equiv.linear_map.has_coe
+
+--#check linear_map.rtensor
+
+variables {R} {N} {P : Type u} [add_comm_group P] [module R P]
+
+def linear_equiv.ltensor (e : N ≃ₗ[R] P) : (M ⊗[R] N ≃ₗ[R] M ⊗[R] P) :=
+{ to_fun := linear_map.ltensor M e.to_linear_map,
+    map_add' := by simp {contextual := tt},
+    map_smul' := by simp {contextual := tt},
+  inv_fun := linear_map.ltensor M e.symm.to_linear_map,
+  left_inv := λ x, begin
+    change (linear_map.ltensor M e.symm.to_linear_map).comp (linear_map.ltensor M e.to_linear_map) x = _,
+    rw ← linear_map.ltensor_comp, 
+    have := linear_map.ltensor_id M N,
+    rw linear_map.ext_iff at this,
+    convert this x,
+    ext y,
+    simp,
+  end,
+  right_inv := 
+  begin
+    intro x,
+    change (linear_map.ltensor M e.to_linear_map).comp (linear_map.ltensor M e.symm.to_linear_map) x = _, 
+    rw ← linear_map.ltensor_comp,
+    have := linear_map.ltensor_id M P,
+    rw linear_map.ext_iff at this,
+    convert this x,
+    ext y,
+    simp,
+  end }
+
+def linear_equiv.rtensor (e : N ≃ₗ[R] P) : (N ⊗[R] M ≃ₗ[R] P ⊗[R] M) :=
+{ to_fun := linear_map.rtensor M e.to_linear_map,
+    map_add' := by simp {contextual := tt},
+    map_smul' := by simp {contextual := tt},
+  inv_fun := linear_map.rtensor M e.symm.to_linear_map,
+  left_inv := λ x, begin
+    change (linear_map.rtensor M e.symm.to_linear_map).comp (linear_map.rtensor M e.to_linear_map) x = _,
+    rw ← linear_map.rtensor_comp, 
+    have := linear_map.rtensor_id M N,
+    rw linear_map.ext_iff at this,
+    convert this x,
+    ext y,
+    simp,
+  end,
+  right_inv := 
+  begin
+    intro x,
+    change (linear_map.rtensor M e.to_linear_map).comp (linear_map.rtensor M e.symm.to_linear_map) x = _, 
+    rw ← linear_map.rtensor_comp,
+    have := linear_map.rtensor_id M P,
+    rw linear_map.ext_iff at this,
+    convert this x,
+    ext y,
+    simp,
+  end }
+
+def fg_of_inverse (i : module.is_inverse R M N): submodule.fg (⊤ : submodule R M) :=
+begin
+  unfreezingI {cases i},
+  let mn := i.symm 1,
+  have hmn : mn ∈ ⊤ := submodule.mem_top,
+  rw ← tensor_product.span_tmul_eq_top at hmn,
+  obtain ⟨T, hT, hTmn⟩ := submodule.mem_span_finite_of_mem_span hmn,
+  choose pM pN h2 using hT,
+  change ∀ ⦃a : M ⊗ N⦄ (Ha : a ∈ ↑T), pM Ha ⊗ₜ[R] pN Ha = a at h2,
+  classical,
+  let Mgens := finset.image (λ x : {x : M ⊗ N // x ∈ T}, @pM x.1 x.2) finset.univ,
+  refine ⟨Mgens, _⟩,
+  -- let's define an isomorphism M → M
+  let e0 : M ≃ₗ[R] R ⊗ M := 
+    (tensor_product.lid R M).symm,
+  let e1 : R ⊗ M ≃ₗ[R] (M ⊗ N) ⊗ M := 
+    i.symm.rtensor M,
+  let e2 : M ⊗ N ⊗ M ≃ₗ[R] M ⊗ (N ⊗ M) :=
+    tensor_product.assoc R M N M,
+  let e3 : M ⊗ (N ⊗ M) ≃ₗ[R] M ⊗ (M ⊗ N) :=
+    (tensor_product.comm R N M).ltensor M,
+  let e4 : M ⊗ (M ⊗ N) ≃ₗ[R] M ⊗ R :=
+    i.ltensor M,
+  let e5 : M ⊗ R ≃ₗ[R] M :=
+    tensor_product.rid R M,
+  let e : M ≃ₗ[R] M :=
+    e0.trans (e1.trans (e2.trans (e3.trans (e4.trans e5)))),
+  rw eq_top_iff,
+  rintro m -,
+  have hm : e (e.symm m) = m := e.to_equiv.apply_symm_apply m,
+  rw ← hm,
+  simp [e] at hm,
+  sorry,
+end

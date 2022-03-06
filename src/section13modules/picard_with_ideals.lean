@@ -238,6 +238,10 @@ abbreviation Picard_group := units (ideal.Picard_monoid R)
 
 instance : group (ideal.Picard_group R) := infer_instance -- works
 
+#check ideal.Picard_group R -- Type u
+
+-- But is it the same as the module one??
+
 -- notation
 open_locale tensor_product
 
@@ -276,10 +280,6 @@ instance s : setoid (bundled_tensor_invertible_ideals R) :=
    λ I J, nonempty.map linear_equiv.symm,
    λ I J K, nonempty.map2 linear_equiv.trans⟩ }
 
-def mul (I J : bundled_tensor_invertible_ideals R) : bundled_tensor_invertible_ideals R :=
-⟨I.1 * J.1, sorry⟩ -- product of tensor-invertible ideals is invertible
-
 end is_tensor_invertible
-
 
 end ideal

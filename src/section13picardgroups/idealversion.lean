@@ -34,7 +34,34 @@ def s (R : Type u) [comm_ring R] : setoid (ideal R) :=
       exact nonempty.intro (hIJ.trans hJK) },
   end }
 
-/-
+-- not done in class
+
+set_option pp.proofs true
+
+#check submodule.map_mul
+def linear_map.rmul (I : ideal R) {J K : ideal R} (e : J →ₗ[R] K) : 
+  (J * I : ideal R) →ₗ[R] (K * I : ideal R) := 
+{ to_fun := λ x, ⟨e.to_fun ⟨x.1, ideal.mul_le_right x.2⟩, begin
+  cases x with x hx,
+  dsimp, -- looks like hx isn't in the goal
+  -- but set_option pp.proofs true and you'll see it hidden there
+  have h2 : x ∈ J := mul_le_right hx,
+  rw show mul_le_right hx = h2, from rfl,
+  -- now it's gone
+  revert h2,
+  rw submodule.mul_eq_span_mul_set at hx,
+  apply submodule.span_induction hx,
+  let xJ : J := ⟨x, h2⟩,
+  change ↑(e xJ) ∈ K * I,
+  refine submodule.span_induction' _ _ _ _ hx; clear x,
+  { rintro - ⟨r, s, hr, hs, rfl⟩,
+    
+  
+  }
+end⟩,
+  map_add' := sorry,
+  map_smul' := sorry }
+
 
 
 

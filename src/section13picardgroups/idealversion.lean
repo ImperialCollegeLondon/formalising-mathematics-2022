@@ -1,18 +1,17 @@
 import tactic -- for the tactics
-import ring_theory.ideal.operations -- for the ideals
--- (including product of ideals)
+import ring_theory.ideal.operations -- for the ideals (including product of ideals)
 
 -- universe variable
 universe u
 
+-- let R be a ring in universe u
 variables (R : Type u) [comm_ring R]
 
--- let V be a vector space over R (i.e. a module over R)
+-- let V be a vector space over R (i.e. a module over R) (also in universe u)
 variables (V : Type u) [add_comm_group V] [module R V]
   
--- the R-linear isomorphism `V ≃ₗ[R] V`
-#check linear_equiv.refl R V
--- linear_equiv.refl R V : V ≃ₗ[R] V
+-- the R-linear identity isomorphism `V ≃ₗ[R] V`
+#check linear_equiv.refl R V --  V ≃ₗ[R] V
 
 -- Note that this isn't the true-false statement "V is isomorphic to V",
 -- it's the actual identity isomorphism V ≃ V.
@@ -43,6 +42,7 @@ end submodule
 
 namespace ideal
 
+/-- The equivalence relation "we're isomorphic as R-modules" on the ideals of R. -/
 def s (R : Type u) [comm_ring R] : setoid (ideal R) :=
 { r := λ I J, nonempty (I ≃ₗ[R] J),
   iseqv := begin
@@ -55,7 +55,7 @@ def s (R : Type u) [comm_ring R] : setoid (ideal R) :=
       exact nonempty.intro (hIJ.trans hJK) },
   end }
 
--- The below stuff (the next 150 lines0 seems to be missing from mathlib; it's basic facts about
+-- The below stuff (the next 150 lines seems to be missing from mathlib; it's basic facts about
 -- how isomorphism of ideals plays with multiplication of ideals.
 -- It's quite advanced Lean I guess :-/ (I found it a pain to write)
 
@@ -203,8 +203,7 @@ def linear_equiv.lmul (I : ideal R) {J K : ideal R} (e : J ≃ₗ[R] K) :
 
 variable (R)
 
-
-/-- Being isomorphic is a congruence relation on ideals (i.e., it plays well with `*`)-/
+/-- Being isomorphic is a congruence relation on ideals (i.e., it plays well with `*`) -/
 def con : con (ideal R) :=
 { mul' := begin
     rintros I J K L ⟨eIJ⟩ ⟨eKL⟩,
@@ -213,17 +212,18 @@ def con : con (ideal R) :=
   end,
   ..ideal.s R }
 
--- quotienting out by the congruence relation
+/-- The ideal-theoretic Picard monoid of a ring, defined as isomorphism classes of ideals. -/
 abbreviation Picard_monoid := (con R).quotient
 
 -- and because we used `con.quotient` the quotient
 -- gets a monoid instance automatically
 instance : monoid (Picard_monoid R) := infer_instance
 
+/-- The ideal-theoretic definition of the Picard group -/
 abbreviation Picard_group := units (Picard_monoid R)
-
-end ideal
 
 -- the Picard group of a commutative ring is a group
 instance : group (ideal.Picard_group R) := by apply_instance 
+
+end ideal
 

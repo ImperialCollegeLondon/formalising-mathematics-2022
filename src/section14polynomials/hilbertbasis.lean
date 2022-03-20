@@ -239,7 +239,7 @@ begin
   intro I,
   cases aux_ideal2.canonical_N I hR with N hN,
   classical,
-  let S := finset.bUnion (finset.range N.succ) 
+  let S := finset.bUnion (finset.range (N+1)) 
     (λ n, (hR.gens (aux_ideal I n)).image (λ r, aux_ideal.lift I n r) ),
   use S,
   have hSI : ideal.span (S : set (polynomial R)) ≤ I,
@@ -299,7 +299,8 @@ begin
       rintro x hx,
       simp only [set.mem_image, finset.mem_coe, finset.coe_image] at hx,
       rcases hx with ⟨y, hy, rfl⟩,
-      simp only [exists_prop, set.mem_Union, finset.coe_bUnion, set.mem_image, finset.mem_range, finset.mem_coe, finset.coe_image],
+      simp only [exists_prop, set.mem_Union, finset.coe_bUnion, set.mem_image, 
+        finset.mem_range, finset.mem_coe, finset.coe_image],
       refine ⟨d, hdN, y, hy, rfl⟩ },
     { rw ← hN d (lt_of_lt_of_le N.lt_succ_self hdN).le at hcI,
       rw hN N N.le_refl at hcI,
@@ -318,7 +319,8 @@ begin
         rintro x hx,
         simp only [set.mem_image, finset.mem_coe, finset.coe_image] at hx,
         rcases hx with ⟨y, hy, rfl⟩,
-        simp only [exists_prop, set.mem_Union, finset.coe_bUnion, set.mem_image, finset.mem_range, finset.mem_coe, finset.coe_image],
+        simp only [exists_prop, set.mem_Union, finset.coe_bUnion, set.mem_image, finset.mem_range, 
+          finset.mem_coe, finset.coe_image],
         refine ⟨N, N.lt_succ_self, y, hy, rfl⟩, },
       { rw coeff_mul_X_pow, 
         exact hpc.trans hc },

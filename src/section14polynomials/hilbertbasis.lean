@@ -17,16 +17,7 @@ namespace polynomial
 
 variables (R : Type) [comm_ring R]
 
--- for mathlib
-lemma nat_degree_X_pow_le (n : ℕ) : (X^n : polynomial R).nat_degree ≤ n :=
-begin
-  casesI subsingleton_or_nontrivial R,
-  { rw nat_degree_of_subsingleton, exact zero_le n, },
-  { rw nat_degree_X_pow },
-end
-
-
-noncomputable def Mnat (n : ℕ) : submodule R (polynomial R) :=
+noncomputable def M (n : ℕ) : submodule R (polynomial R) :=
 { carrier := {f : polynomial R | f.nat_degree ≤ n},
   zero_mem' := begin exact zero_le n, end,
   add_mem' := begin
@@ -41,27 +32,29 @@ noncomputable def Mnat (n : ℕ) : submodule R (polynomial R) :=
     exact (nat_degree_smul_le c f).trans hf,
   end }
 
-lemma mem_Mnat_iff (f : polynomial R) (n : ℕ) : f ∈ Mnat R n ↔ f.nat_degree ≤ n :=
+lemma mem_M_iff (f : polynomial R) (n : ℕ) : f ∈ M R n ↔ f.nat_degree ≤ n :=
 begin
   refl
 end
 
-noncomputable def coeff' (n : ℕ) : polynomial R →ₗ[R] R :=
-{ to_fun := λ f, f.coeff n,
-  map_add' := λ f g, coeff_add f g n,
-  map_smul' := λ r f, coeff_smul r f n }
-
-lemma ker_coeff' (f : polynomial R) (n : ℕ) (hfn : f ∈ Mnat R n.succ) (hf : coeff' R n.succ f = 0) :
-  f ∈ Mnat R n :=
+lemma ker_lcoeff (f : polynomial R) (n : ℕ) (hfn : f ∈ M R (n+1)) (hf : lcoeff R (n+1) f = 0) :
+  f ∈ M R n :=
 begin
-  rw mem_Mnat_iff at ⊢ hfn,
+  rw mem_M_iff at ⊢ hfn,
   rw nat_degree_le_iff_coeff_eq_zero at hfn ⊢,
   intros i hi,
   by_cases hin : n + 1 < i,
   { exact hfn _ hin, },
   { convert hf,
-    rw nat.succ_eq_add_one,
     linarith },
+end
+
+-- for mathlib
+lemma nat_degree_X_pow_le (n : ℕ) : (X^n : polynomial R).nat_degree ≤ n :=
+begin
+  casesI subsingleton_or_nontrivial R,
+  { rw nat_degree_of_subsingleton, exact zero_le n, },
+  { rw nat_degree_X_pow },
 end
 
 end polynomial
@@ -89,7 +82,7 @@ end
 end is_noetherian_ring
 
 noncomputable def aux_ideal (n : ℕ) :=
-(I.restrict_scalars R ⊓ Mnat R n).map (coeff' R n)
+(I.restrict_scalars R ⊓ M R n).map (lcoeff R n)
 
 namespace aux_ideal
 
@@ -104,7 +97,7 @@ lemma lift_eq_zero_of_ne (hr : ¬ r ∈ aux_ideal I n) : lift I n r = 0 :=
 dif_neg hr
 
 lemma lift_mem :
-  (lift I n r) ∈ submodule.restrict_scalars R I ⊓ Mnat R n :=
+  (lift I n r) ∈ submodule.restrict_scalars R I ⊓ M R n :=
 begin
   by_cases hr : r ∈ aux_ideal I n,
   { convert ((submodule.mem_map.1 hr).some_spec).1,
@@ -121,7 +114,7 @@ lemma lift_nat_degree_le :
 lift_mem.2
 
 lemma lift_spec (hr : r ∈ aux_ideal I n) :
-  coeff' R n (lift I n r) = r :=
+  lcoeff R n (lift I n r) = r :=
 begin
   convert ((submodule.mem_map.1 hr).some_spec).2,
   exact dif_pos hr,
@@ -144,11 +137,11 @@ monotone_nat_of_le_succ (mono_aux I)
 lemma coeff_span_lift_gens [∀ r, decidable (r ∈ aux_ideal I n)] [decidable_eq (polynomial R)] 
   (hR : is_noetherian_ring R) {c : R} (hcI : c ∈ aux_ideal I n) :
 ∃ (y : polynomial R), y ∈ submodule.span R ((λ (r : R), lift I n r) '' ↑(hR.gens (aux_ideal I n))) ∧
-  (coeff' R n) y = c :=
+  (lcoeff R n) y = c :=
 begin
   rw ← hR.span_gens (aux_ideal I n) at hcI,
   change _ ∈ submodule.span R _ at hcI,
-  have h : (hR.gens (aux_ideal I n) : set R) ⊆ (polynomial.coeff' R n)'' 
+  have h : (hR.gens (aux_ideal I n) : set R) ⊆ (polynomial.lcoeff R n)'' 
     (finset.image (λ (r : R), aux_ideal.lift I n r) (hR.gens (aux_ideal I n))),
   { intros x hx,
     refine ⟨aux_ideal.lift I n x, _, aux_ideal.lift_spec (hR.gens_subset _ hx)⟩,
@@ -164,7 +157,7 @@ lemma nat_deg_le_of_mem_span_lift_gens [∀ r, decidable (r ∈ aux_ideal I n)]
   (hp : p ∈ submodule.span R ((λ (r : R), lift I n r) '' (hR.gens (aux_ideal I n)))) :
 p.nat_degree ≤ n :=
 begin
-  rw ← mem_Mnat_iff,
+  rw ← mem_M_iff,
   revert hp,
   apply submodule.span_le.2,
   intros x hx,
@@ -296,7 +289,7 @@ begin
         exact hSI hgS },
     },
     clear hd hSI,
-    set c := coeff' R d f with hc,
+    set c := lcoeff R d f with hc,
     have hcI : c ∈ aux_ideal I d := ⟨f, ⟨hfI, h.le⟩, hc.symm⟩, 
     cases lt_or_le d (N+1) with hdN hdN,
     { obtain ⟨g, hg, hgc⟩ := aux_ideal.coeff_span_lift_gens I hR hcI,

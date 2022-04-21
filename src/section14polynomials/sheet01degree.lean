@@ -12,7 +12,7 @@ import data.polynomial -- API for (i.e. definitions relating to and lemmas about
 # Degree
 
 What is the degree of the zero polynomial? Is it 0, -1 or -∞? One advantage
-of -∞ is that things like `deg(f*g)=deg(f)*deg(g)` is always true (at least
+of -∞ is that things like `deg(f*g)=deg(f)+deg(g)` is always true (at least
 if the base is an integral domain) but one big disadvantage is that working
 with a type like `with_bot ℕ` (which is the naturals plus a "bottom" element
 `⊥` which is less than all naturals) is a pain; it's sometimes much easier to

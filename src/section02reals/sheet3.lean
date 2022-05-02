@@ -16,7 +16,7 @@ and prove some theorems about them.
 
 ## lambda (λ) notation for functions
 
-Here's how we define the functions from the naturals to the naturals
+Here's how we define the functions from the naturals to the reals
 sending n to n^2 + 3:
 
 -/

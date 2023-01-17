@@ -1,6 +1,6 @@
 # Formalising Mathematics
 
-This is the repository for Kevin Buzzard's 2022 course on formalising mathmatics in the Lean theorem prover. The course runs from January to March 2022. The material will start appearing on or before 10th January 2022.
+This is the repository for Kevin Buzzard's 2022 course on formalising mathmatics in the Lean theorem prover. The course ran from January to March 2022. Note: the 2023 version of the course is [here](https://github.com/ImperialCollegeLondon/formalising-mathematics-2023).
 
 ## Installation
 
@@ -14,8 +14,8 @@ into the command line. Instructions for installing Lean 3 and the relevant tools
 
 ## Course notes
 
-The course notes are [here](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2022/). They are also currently unfinished, and will grow in parallel with this repo over the period Jan to March 2022.
+The course notes are [here](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2022/). Note: the 2023 course notes are more up to date.
 
 ## Course videos
 
-The accompanying videos are in a YouTube playlist [here](https://www.youtube.com/watch?v=3XaL0tjnWSk&list=PLVZep5wTamMmRPvCLO4WVpCwkTi1F6OyF). As with everything else, this playlist will be built during the period Jan to March 2022.
+The accompanying videos are in a YouTube playlist [here](https://www.youtube.com/watch?v=3XaL0tjnWSk&list=PLVZep5wTamMmRPvCLO4WVpCwkTi1F6OyF).

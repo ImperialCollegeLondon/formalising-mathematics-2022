@@ -1,3 +1,7 @@
+# IMPORTANT
+
+This repo is old Lean 3 code. A Lean 4 version of this course is [here](https://github.com/ImperialCollegeLondon/formalising-mathematics-2024).
+
 # Formalising Mathematics
 
 This is the repository for Kevin Buzzard's 2022 course on formalising mathmatics in the Lean theorem prover. The course ran from January to March 2022. Note: the 2023 version of the course is [here](https://github.com/ImperialCollegeLondon/formalising-mathematics-2023).
